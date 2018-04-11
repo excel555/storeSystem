@@ -63,3 +63,5 @@ typings/
 .idea/*
 
 config/config.local.js
+run/*
+run/

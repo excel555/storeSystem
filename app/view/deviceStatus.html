@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% if not t %}
+<form id="formSearch" class="form-horizontal">
+    <div class="form-group">
+        <!--<div class="col-sm-3">-->
+            <!--<div class="input-group">-->
+                <!--<div class="input-group-addon">-->
+                    <!--<i class="fa fa-calendar"></i>-->
+                <!--</div>-->
+                <!--<input placeholder="添加时间" type="text" class="form-control pull-right"-->
+                       <!--id="search_create_time">-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="searchDeviceId" placeholder="设备id">
+        </div>
+        <div class="col-sm-2" style="text-align:left;">
+            <button type="button" id="btn_query" class="btn btn-success">查询</button>
+        </div>
+    </div>
+</form>
+{% endif %}
+<table id="tb_devices" style="min-width:1000px;">
+</table>
+
+<script type="text/javascript">
+    $(function () {
+        let table = $('#tb_devices')
+
+        table.bootstrapTable({
+            toolbar: '#toolbar',
+            striped: true,
+            pagination: true,                   //是否显示分页（*）
+            sidePagination: "server",
+            pageNumber: 1,
+            pageSize: 100,                       //每页的记录行数（*）
+            pageList: [100, 250, 500, 1000],        //可供选择的每页的行数（*）
+            showExport: true,                     //是否显示导出
+            exportDataType: "basic",              //basic', 'all', 'selected'.
+            url: '/admin/device/listStatus?t={{t}}',         //请求后台的URL（*）
+            method: 'get',
+            uniqueId: 'deviceId',
+            fixedColumns: true,
+            fixedNumber: 2,
+            queryParams: function (params) {
+                var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                    limit: params.limit,   //页面大小
+                    offset: params.offset,  //页码
+                    search_create_time: '',
+                    searchDeviceId: $("#searchDeviceId").val()
+                };
+                console.log(temp)
+                return temp;
+            },//传递参数（*）
+            columns: [{
+                field: 'state',
+                checkbox: true
+            }, {
+                field: 'deviceId',
+                title: '设备ID'
+            }, {
+                field: 'name',
+                title: '设备名称'
+            }, {
+                field: 'type',
+                title: '设备类型'
+            }, {
+                field: 'route',
+                title: '心跳'
+            }, {
+                field: 'sim',
+                title: '状态'
+            }]
+        });
+
+        $('#btn_query').click(function () {
+            $('#tb_devices').bootstrapTable('refresh');
+        });
+    });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,75 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="treeview {% if navMenu == 'client'  %} active {% endif %}">
+                <a href="#">
+                    <i class="fa fa-asterisk"></i>
+                    <span>配置管理</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{% if navView == 'client'  %} active {% endif %}"><a href="/admin/client/index"><i
+                            class="fa fa-user"></i> 客户列表</a></li>
+                    <!--<li><a href="index2.html"><i class="fa fa-circle-o"></i> 设备所属客户</a></li>-->
+                </ul>
+            </li>
+            <li class="treeview {% if navMenu == 'device'  %} active {% endif %} ">
+                <a href="#">
+                    <i class="fa fa-television"></i>
+                    <span>设备管理</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{% if navView == 'list'  %} active {% endif %}"><a href="/admin/device/index"><i
+                            class="fa fa-television"></i> 设备列表</a></li>
+                    <li class="{% if navView == 'status'  %} active {% endif %}"><a href="/admin/device/status"><i
+                            class="fa fa-heartbeat"></i> 设备状态</a></li>
+                </ul>
+            </li>
+            <li class="treeview {% if navMenu == 'msg'  %} active {% endif %} ">
+                <a href="#">
+                    <i class="fa fa-comments"></i>
+                    <span>消息日志</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="/admin/mqtt/index?t=exception">
+                            <!--<i class="fa fa-circle-o"></i> 异常消息-->
+                            <!--<span class="pull-right-container">-->
+                            <!--<span class="label label-danger pull-right">4</span>-->
+                            <!--</span>-->
+                        </a>
+                    </li>
+                    <li class="{% if navView == 'door'  %} active {% endif %}"><a href="/admin/mqtt/index?t=door"><i
+                            class="fa fa-circle-o"></i> 开门消息</a></li>
+                    <li class="{% if navView == 'inventory'  %} active {% endif %}"><a
+                            href="/admin/mqtt/index?t=inventory"><i class="fa fa-circle-o"></i> 盘点消息</a></li>
+                    <li class="{% if navView == 'deviceQrCode'  %} active {% endif %}"><a
+                            href="/admin/mqtt/index?t=deviceQrCode"><i class="fa fa-circle-o"></i> 二维码消息</a></li>
+                    <li class="{% if navView == 'pushDeviceInfo'  %} active {% endif %}"><a
+                            href="/admin/mqtt/index?t=pushDeviceInfo"><i class="fa fa-circle-o"></i> 设备信息</a></li>
+                    <li class="{% if navView == 'heartbeat'  %} active {% endif %}"><a
+                            href="/admin/mqtt/index?t=heartbeat"><i class="fa fa-circle-o"></i> 心跳信息</a></li>
+                    <li class="{% if navView == 'api'  %} active {% endif %}"><a href="/admin/api/index"><i
+                            class="fa fa-circle-o"></i> 第三方请求消息</a></li>
+                    <li class="{% if navView == 'send'  %} active {% endif %}"><a href="/admin/api/send"><i
+                            class="fa fa-circle-o"></i> 推送第三方消息</a></li>
+                </ul>
+            </li>
+            <li class="header">
+                <i class="fa fa-heartbeat"></i> <span>设备监控-更新于{{lastUpateMonitor}}</span>
+            </li>
+            <li><a href="/admin/device/status?t=online"><i class="fa fa-circle-o text-green"></i> <span>在线-{{ onlineNum }}</span></a>
+            </li>
+            <li><a href="/admin/device/status?t=offline"><i class="fa fa-circle-o text-yellow"></i> <span>离线-{{ offlineNum }}</span></a>
+            </li>
+            <li><a href="/admin/device/status?t=exception"><i class="fa fa-circle-o text-red"></i> <span>异常-{{ exceptionNum }}</span></a>
+            </li>
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

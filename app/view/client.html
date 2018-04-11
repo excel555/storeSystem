@@ -1,0 +1,321 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form id="formSearch" class="form-horizontal">
+    <div class="form-group">
+        <!--<div class="col-sm-3">-->
+        <!--<div class="input-group">-->
+        <!--<div class="input-group-addon">-->
+        <!--<i class="fa fa-calendar"></i>-->
+        <!--</div>-->
+        <!--<input placeholder="添加时间" type="text" class="form-control pull-right"-->
+        <!--id="search_create_time">-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="search_name" placeholder="客户名称">
+        </div>
+        <div class="col-sm-2" style="text-align:left;">
+            <button type="button" id="btn_query" class="btn btn-success">查询</button>
+        </div>
+    </div>
+</form>
+<div class="btn-toolbar" id="toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <button type="button" id="btn_add" class="btn btn-success" data-toggle="modal" data-target="#modalNew">添加</button>
+    <button type="button" id="btn_refresh" class="btn btn-warning">刷新缓存</button>
+</div>
+<table id="tb_clients" style="min-width:1000px;">
+</table>
+
+<div>
+    <div id="modalNew" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h6 class="modal-title">
+                        新增/编辑-客户
+                    </h6>
+                </div>
+                <div class="modal-body">
+                    <form id="form" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">名称:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="name" name="name" datatype="*"
+                                       nullmsg="请输入名称！" placeholder="请输入名称">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="code" class="col-sm-3 control-label">客户CODE:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="code" name="code" datatype="s2-16"
+                                       errormsg="最少2个字符" nullmsg="请输入客户CODE！" placeholder="唯一客户CODE，填写英文字母，不能修改">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="concact" class="col-sm-3 control-label">联系人:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="concact" name="concact"
+                                       placeholder="请输入联系人">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tel" class="col-sm-3 control-label">联系人联系方式:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="tel" name="tel" placeholder="请输入联系人联系方式">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="appId" class="col-sm-3 control-label">app_id:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="appId" name="appId" datatype="*"
+                                       nullmsg="请输入app_id！" placeholder="app_id">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="secret" class="col-sm-3 control-label">秘钥secret:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="secret" name="secret" datatype="*"
+                                       nullmsg="请输入秘钥！" placeholder="请输入秘钥">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="extendSecret" class="col-sm-3 control-label">推送秘钥secret:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="extendSecret" name="extendSecret"
+                                       datatype="*"
+                                       nullmsg="请输入推送秘钥！" placeholder="请输入推送秘钥">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="callbackUrl" class="col-sm-3 control-label">消息推送地址:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="callbackUrl" name="callbackUrl"
+                                       datatype="url" errormsg="填写正确URL" nullmsg="请输入消息推送地址！" placeholder="请输入消息推送地址">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-2">
+                                <button type="submit" id="btn_save1" class="btn btn-success pull-right">保存</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div>
+        <div id="modalDel" class="modal fade">
+            <div class="modal-dialog modal-danger">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h6 class="modal-title">
+                            删除提醒
+                        </h6>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formDel" method="post" class="form-group">
+                            <p>确定要删除吗？</p>
+                            <input type="hidden" name="code"/>
+                            <button type="submit" id="btn_del" class="btn btn-success ">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        let table = $('#tb_clients')
+
+        var demo = $("#form").Validform();
+        demo.config({
+            tiptype: 2,
+            url: '/admin/client/save',
+            ajaxPost: true,
+            callback: function (data) {
+                $.Hidemsg()
+                console.log(data)
+                if (data.code == 200) {
+                    $.notify(data.message, "success");
+                    setTimeout(function () {
+                        $.Hidemsg(); //公用方法关闭信息提示框;显示方法是
+                    }, 2000);
+                    $('#modalNew').modal('hide')
+                    table.bootstrapTable('refresh');
+                } else {
+                    $.notify(data.message, "error");
+                }
+            }
+        });
+
+        var demo1 = $("#formDel").Validform();
+        demo1.config({
+            url: '/admin/client/delete',
+            ajaxPost: true,
+            callback: function (data) {
+                $.Hidemsg()
+                console.log(data)
+                if (data.code == 200) {
+                    $.notify(data.message, "success");
+                    setTimeout(function () {
+                        $.Hidemsg(); //公用方法关闭信息提示框;显示方法是
+                    }, 2000);
+                    $('#modalDel').modal('hide')
+                    table.bootstrapTable('refresh');
+                } else {
+                    $.notify(data.message, "error");
+                }
+            }
+        });
+
+
+        table.bootstrapTable({
+            toolbar: '#toolbar',
+            striped: true,
+            pagination: true,                   //是否显示分页（*）
+            sidePagination: "server",
+            pageNumber: 1,
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            showExport: true,                     //是否显示导出
+            exportDataType: "basic",              //basic', 'all', 'selected'.
+            url: '/admin/client/list',         //请求后台的URL（*）
+            method: 'get',
+            uniqueId: 'code',
+            fixedColumns: true,
+            fixedNumber: 2,
+            queryParams: function (params) {
+                var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                    limit: params.limit,   //页面大小
+                    offset: params.offset,  //页码
+                    search_create_time: '',
+                    search_name: $("#search_name").val()
+                };
+                console.log(temp)
+                return temp;
+            },//传递参数（*）
+            columns: [{
+                field: 'name',
+                title: '客户名称'
+            }, {
+                field: 'code',
+                title: '客户CODE'
+            }, {
+                field: 'addTime',
+                title: '添加时间',
+                formatter: function (value, row, index) {
+                    if (value == 0) return '-';
+                    return dateFormat(new Date(value * 1000), "yyyy-mm-dd HH:MM:ss");
+                }
+            }, {
+                field: 'tel',
+                title: '联系人电话'
+            }, {
+                field: 'concact',
+                title: '联系人'
+            }, {
+                field: 'appId',
+                title: 'appId'
+            }, {
+                field: 'secret',
+                title: '秘钥'
+            }, {
+                field: 'extendSecret',
+                title: '推送秘钥'
+            }, {
+                field: 'callbackUrl',
+                title: '推送URL'
+            }, {
+                title: '操作',
+                width: 80,
+                formatter: function (value, row, index) {//这里的三个参数：value表示当前行当前列的值；row表示当前行的数据；index表示当前行的索引（从0开始）。
+                    var html = '<button type="button" onclick="editModel(\'' + row.code + '\')" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil" aria- hidden="true" ></span >编辑</button >  ' +
+                        '<button type="button" onclick="deleteModel(\'' + row.code + '\')" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria- hidden="true" ></span >删除</button >';
+                    return html;
+                }
+            }]
+        });
+
+        $('#btn_query').click(function () {
+            $('#tb_clients').bootstrapTable('refresh');
+        });
+        $('#btn_add').click(function () {
+            $("#modalNew input[name='code']").removeAttr('readonly');
+            $("#modalNew input").each(function () {
+                $(this).val('')
+            });
+        });
+        $('#btn_refresh').click(function () {
+            $.ajax({
+                    url: "/admin/client/cache",
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $.notify(data.message, "success");
+                            setTimeout(function () {
+                                $.Hidemsg(); //公用方法关闭信息提示框;显示方法是
+                            }, 2000);
+                            $('#modalNew').modal('hide')
+                            table.bootstrapTable('refresh');
+                        } else {
+                            $.notify(data.message, "error");
+                        }
+                    }
+                }
+            );
+        });
+
+    });
+    //编辑事件
+    function editModel(id) {
+        //根据当前行的id获取当前的行数据
+        var row = $("#tb_clients").bootstrapTable('getRowByUniqueId', id);
+        //弹出模态框
+        $("#modalNew").modal();
+        //给弹出框里面的各个文本框赋值
+        $("#modalNew input[name='name']").val(row.name);
+        $("#modalNew input[name='code']").val(row.code);
+        $("#modalNew input[name='code']").attr('readonly', true);
+        $("#modalNew input[name='tel']").val(row.tel);
+        $("#modalNew input[name='concact']").val(row.concact);
+        $("#modalNew input[name='appId']").val(row.appId);
+        $("#modalNew input[name='secret']").val(row.secret);
+        $("#modalNew input[name='extendSecret']").val(row.extendSecret);
+        $("#modalNew input[name='callbackUrl']").val(row.callbackUrl);
+    }
+    //删除事件
+    function deleteModel(code) {
+        $('#modalDel').modal()
+        $("#modalDel input[name='code']").val(code);
+    }
+</script>
+
+
+{% endblock %}

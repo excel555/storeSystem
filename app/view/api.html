@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form id="formSearch" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="searchDeviceId" placeholder="设备id">
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="searchParam" placeholder="请求参数">
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control" name="searchType" id="searchType">
+                <option value="">-选择消息类型-</option>
+                {% for item in types %}
+                <option value="{{item}}">{{item}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-2" style="text-align:left;">
+            <button type="button" id="btn_query" class="btn btn-success">查询</button>
+        </div>
+    </div>
+</form>
+
+<table id="tb_apis" style="min-width:1000px;">
+</table>
+
+
+<script type="text/javascript">
+    $(function () {
+        let table = $('#tb_apis')
+        table.bootstrapTable({
+            toolbar: '#toolbar',
+            striped: true,
+            pagination: true,                   //是否显示分页（*）
+            sidePagination: "server",
+            pageNumber: 1,
+            pageSize: 50,                       //每页的记录行数（*）
+            pageList: [50, 100,200,500],        //可供选择的每页的行数（*）
+            showExport: true,                     //是否显示导出
+            exportDataType: "basic",              //basic', 'all', 'selected'.
+            url: '/admin/api/{{method}}?t={{ t }}',         //请求后台的URL（*）
+            method: 'get',
+            uniqueId: 'apiId',
+            fixedColumns: true,
+            fixedNumber: 2,
+            queryParams: function (params) {
+                var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                    limit: params.limit,   //页面大小
+                    offset: params.offset,  //页码
+                    searchType: $("#searchType").val(),
+                    searchParam: $("#searchParam").val(),
+                    searchDeviceId: $("#searchDeviceId").val()
+                };
+                console.log(temp)
+                return temp;
+            },//传递参数（*）
+            columns: [{
+                field: 'deviceId',
+                title: '设备ID'
+            }, {
+                field: 'operation',
+                title: '消息类型'
+            }, {
+                field: 'createTime',
+                title: '请求时间',
+                formatter: function (value, row, index) {
+                    if (value == 0) return '-'
+                    return dateFormat(new Date(value * 1000), "yyyy-mm-dd HH:MM:ss");
+                }
+            }, {
+                field: 'responseTime',
+                title: '响应时间',
+                formatter: function (value, row, index) {
+                    if (value == 0) return '-'
+                    return dateFormat(new Date(value * 1000), "yyyy-mm-dd HH:MM:ss");
+                }
+            }, {
+                field: 'param',
+                title: '请求参数'
+            }, {
+                field: 'response',
+                title: '响应'
+            }]
+        });
+
+        $('#btn_query').click(function () {
+            $('#tb_apis').bootstrapTable('refresh');
+        });
+
+    });
+
+</script>
+
+
+{% endblock %}

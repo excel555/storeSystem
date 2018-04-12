@@ -1,6 +1,6 @@
 'use strict';
 
-exports.keys = 'strictnunj64udaks';
+exports.keys = 'myMunjucksorHandlereys';
 
 exports.view = {
     defaultViewEngine: 'nunjucks',
@@ -10,7 +10,7 @@ exports.nunjucks = {
     cache: true, // local env is false
 };
 exports.logger = {
-    level: 'ERROR',
+    level: 'DEBUG',
     // dir: ''
 }
 exports.security = {
@@ -20,7 +20,7 @@ exports.security = {
         // ignore: ctx => isInnerIp(ctx.ip),
     },
 }
-exports.middleware = ['errorHandler'];
+exports.middleware = ['errorHandler','navPermission'];
 exports.redis = {
     client: {
         port: 6379,          // Redis port
@@ -29,47 +29,26 @@ exports.redis = {
         db: 0,
     },
 }
-/*
- //redis 集群
- exports.redis = {
- client: {
- cluster: true,
- nodes: [{
- host: '127.0.0.1',
- port: '6379',
- family: 'user',
- password: 'password',
- db: 'db',
- }, {
- host: '127.0.0.1',
- port: '6380',
- family: 'user',
- password: 'password',
- db: 'db',
- }]
- },
- };
- */
 
-exports.mongoose = {
+exports.mysql = {
+    // database configuration
     client: {
-        url: 'mongodb://127.0.0.1/iot',
-        options: {},
+        // host
+        host: '127.0.0.1',
+        // port
+        port: '3306',
+        // username
+        user: 'root',
+        // password
+        password: '123456',
+        // database
+        database: 'store',
     },
+    // load into app, default is open
+    app: true,
+    // load into agent, default is close
+    agent: false,
 };
 
 exports.offlineInterval = 65; //离线间隔
-
-exports.mqtt = {
-    client: {
-        host: '127.0.0.1',
-        port: '1883',
-        user: '',
-        password: '',
-        clientId: 'iot',
-        connectTimeout: 30 * 1000,
-        keepalive: 5,
-        clean: false
-    }
-};
 

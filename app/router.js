@@ -2,11 +2,10 @@
 
 module.exports = app => {
 
-    //nav permission
-    const navPermission = app.middleware.navPermission();
+
 
     app.router.get('/' ,'admin.index');
-    app.router.get('/admin/index' ,navPermission,'admin.index');
+    app.router.get('/admin/index','admin.index');
 
     //admin employee module
     app.router.get('/admin/employee/index', 'admin.employee.index');

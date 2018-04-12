@@ -2,7 +2,7 @@
 const rbac = require('../../config/rbac.js')
 module.exports = (option, app) => {
     return async function navPermission(ctx, next) {
-
+        console.log('navPermission in ... ')
         let urlSplit = ctx.request.url.split('/');
         let menus = rbac.menus;
         let navPer = [];

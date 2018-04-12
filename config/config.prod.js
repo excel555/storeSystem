@@ -40,7 +40,7 @@ exports.mysql = {
         // username
         user: 'root',
         // password
-        password: '123456',
+        password: 'Denglu123-',
         // database
         database: 'store',
     },

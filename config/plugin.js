@@ -13,11 +13,11 @@ exports.redis = {
     enable: true,
     package: 'egg-redis',
 };
-exports.mongoose = {
+exports.sessionRedis = {
     enable: true,
-    package: 'egg-mongoose',
+    package: 'egg-session-redis',
 };
-exports.mqtt = {
+exports.mysql = {
     enable: true,
-    package: 'egg-mqtt',
+    package: 'egg-mysql',
 };

@@ -2,7 +2,18 @@
 
 module.exports = app => {
 
-    app.router.get('/admin/index', 'admin.index');
+    //nav permission
+    const navPermission = app.middleware.navPermission();
+
+    app.router.get('/' ,'admin.index');
+    app.router.get('/admin/index' ,navPermission,'admin.index');
+
+    //admin employee module
+    app.router.get('/admin/employee/index', 'admin.employee.index');
+    app.router.get('/admin/employee/list', 'admin.employee.list');
+    app.router.post('/admin/employee/save', 'admin.employee.save');
+    app.router.post('/admin/employee/delete', 'admin.employee.delete');
+
     //admin client module
     app.router.get('/admin/client/index', 'admin.client.index');
     app.router.get('/admin/client/list', 'admin.client.list');

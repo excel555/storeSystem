@@ -9,7 +9,24 @@ class Api extends Controller {
     }
 
     async openDoor() {
+
         const {ctx, app} = this;
+
+        const response = await app.curl()
+            .post('/oauth2/access_token')
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .set('Authorization', 'Basic bXlfYXBwOm15X3NlY3JldA==')
+            .send({
+                grant_type: 'password',
+                username: 'test',
+                password: '123456',
+            })
+            .expect(200);
+        assert(response.body.access_token);
+
+
+
+
         var deviceId = ctx.request.body.params.deviceId
 
         const insertDb = async function () {

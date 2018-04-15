@@ -2,10 +2,14 @@
 
 module.exports = app => {
 
+    app.router.get('/admin/login' ,'admin.login');
+    app.router.get('/admin/home', 'admin.home');
 
+    // const localStrategy = app.passport.authenticate('local');
+    app.router.post('/passport/local', app.passport.authenticate('local'),function(req, res, next, err){});
 
-    app.router.get('/' ,'admin.index');
-    app.router.get('/admin/index','admin.index');
+    app.router.get('/admin/logout', 'admin.logout');
+
 
     //admin employee module
     app.router.get('/admin/employee/index', 'admin.employee.index');
@@ -40,7 +44,7 @@ module.exports = app => {
     app.router.get('/admin/api/sendList', 'admin.api.sendList');
 
     //api module
-    app.router.post('/command/openDoor', 'api.openDoor');
-    app.router.post('/command/inventory', 'api.inventory');
-    app.router.post('/command/getDeviceInfo', 'api.getDeviceInfo');
+    app.router.post('/api/command/openDoor', 'api.openDoor');
+    app.router.post('/api/command/inventory', 'api.inventory');
+    app.router.post('/api/command/getDeviceInfo', 'api.getDeviceInfo');
 };

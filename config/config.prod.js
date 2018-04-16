@@ -1,6 +1,6 @@
 'use strict';
 
-exports.keys = 'myMunjucksorHandlereys';
+exports.keys = 'my secret keys';
 
 exports.view = {
     defaultViewEngine: 'nunjucks',
@@ -13,14 +13,34 @@ exports.logger = {
     level: 'DEBUG',
     // dir: ''
 }
+exports.static = {
+    maxAge: 31536000,
+};
+
+
 exports.security = {
     csrf: {
+        ignore: '/api',
         enable: false,
         // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
         // ignore: ctx => isInnerIp(ctx.ip),
     },
 }
+
+exports.passportLocal = {
+    // usernameField: 'username',
+    // passwordField: 'password',
+};
+
+
 exports.middleware = ['errorHandler','navPermission'];
+
+
+exports.navPermission =  {
+    ignore: '/api'
+}
+
+
 exports.redis = {
     client: {
         port: 6379,          // Redis port
@@ -30,24 +50,17 @@ exports.redis = {
     },
 }
 
-exports.mysql = {
-    // database configuration
-    client: {
-        // host
-        host: '127.0.0.1',
-        // port
-        port: '3306',
-        // username
-        user: 'root',
-        // password
-        password: 'Denglu123-',
-        // database
-        database: 'store',
-    },
-    // load into app, default is open
-    app: true,
-    // load into agent, default is close
-    agent: false,
+exports.sequelize = {
+    dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
+    database: 'store',
+    host: 'localhost',
+    port: '3306',
+    username: 'root',
+    password: '123456',
+    timezone: '+08:00',
+    define: {
+        schema: "ex"
+    }
 };
 
 exports.offlineInterval = 65; //离线间隔

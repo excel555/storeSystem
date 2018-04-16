@@ -3,10 +3,11 @@
 module.exports = app => {
 
     app.router.get('/admin/login' ,'admin.login');
+    app.router.get('/', 'admin.home');
     app.router.get('/admin/home', 'admin.home');
 
     // const localStrategy = app.passport.authenticate('local');
-    app.router.post('/passport/local', app.passport.authenticate('local'),function(req, res, next, err){});
+    app.router.post('/admin/login', app.passport.authenticate('local'),function(req, res, next, err){});
 
     app.router.get('/admin/logout', 'admin.logout');
 

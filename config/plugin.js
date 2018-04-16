@@ -17,10 +17,10 @@ exports.sessionRedis = {
     enable: true,
     package: 'egg-session-redis',
 };
-exports.mysql = {
-    enable: true,
-    package: 'egg-mysql',
-};
+// exports.mysql = {
+//     enable: true,
+//     package: 'egg-mysql',
+// };
 
 exports.passport = {
     enable: true,
@@ -31,3 +31,8 @@ exports.passportLocal = {
     enable: true,
     package: 'egg-passport-local',
 };
+
+exports.sequelize = {
+    enable: true,
+    package: 'egg-sequelize'
+}

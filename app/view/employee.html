@@ -3,15 +3,6 @@
 {% block body %}
 <form id="formSearch" class="form-horizontal">
     <div class="form-group">
-        <!--<div class="col-sm-3">-->
-        <!--<div class="input-group">-->
-        <!--<div class="input-group-addon">-->
-        <!--<i class="fa fa-calendar"></i>-->
-        <!--</div>-->
-        <!--<input placeholder="添加时间" type="text" class="form-control pull-right"-->
-        <!--id="search_create_time">-->
-        <!--</div>-->
-        <!--</div>-->
         <div class="col-sm-3">
             <input type="text" class="form-control" id="search_name" placeholder="员工名称">
         </div>
@@ -232,7 +223,7 @@
                 field: 'addTime',
                 title: '添加时间',
                 formatter: function (value, row, index) {
-                    if (value == 0) return '-';
+                    if (!value) return '-';
                     return dateFormat(new Date(value * 1000), "yyyy-mm-dd HH:MM:ss");
                 }
             }, {

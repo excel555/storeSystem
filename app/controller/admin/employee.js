@@ -14,28 +14,21 @@ class Employee extends Controller {
 
         let limit = ctx.request.query.limit
         let offset = ctx.request.query.offset
-        let search_create_time = ctx.request.query.search_create_time
         let search_name = ctx.request.query.search_name
-        let search = {}
+        let where = {};
         if (search_name) {
-            search.name = new RegExp(search_name);
-            ;
+            where.name = {$like: '%'+search_name+'%'};
         }
-
-        if (search_create_time) {
-            search.addTime = {'$gte': new Date(search_create_time)};
-        }
-        var options = {
-            "limit": parseInt(limit),
-            "skip": parseInt(offset),
-            "sort": {'addTime': -1}
-        }
-        const clients = await this.ctx.model.Client.find(search, {}, options).exec(function (err, result) {
-            // console.log(err)
+        const employees = await this.ctx.model.Employee.findAll({
+            where: where,
+            order: [['id', 'DESC']],
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            raw: true,
         });
         let data = {
-            'total': clients.length,
-            'rows': clients
+            'total': employees.length,
+            'rows': employees
         }
 
         ctx.body = data;

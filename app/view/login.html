@@ -57,6 +57,7 @@
     <script src="/public/js/bootstrap-table-editable.js"></script>
     <script src="/public/js/bootstrap-table-zh-CN.min.js"></script>
     <script src="/public/js/notify.js"></script>
+    <script src="/public/js/md5.js"></script>
 
 </head>
 <body class="hold-transition login-page">
@@ -67,15 +68,14 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">员工登录门店中台系统</p>
-
-        <form action="/passport/local" method="post" id="loginForm">
+        <form action="/admin/login" method="post" id="loginForm">
             <div class="form-group has-feedback" >
-                <input type="type" class="form-control" name="username" placeholder="账号" datatype="s2-16" errormsg="最少2个字符" nullmsg="请输入账号！" >
+                <input type="type" class="form-control" name="username" value="{{ username }}" placeholder="账号" datatype="s2-16" errormsg="最少2个字符" nullmsg="请输入账号！" >
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 <div class="Validform_checktip"></div>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" class="form-control" placeholder="密码" datatype="s6-16" errormsg="最少6个字符" nullmsg="请输入密码！">
+                <input type="password" name="password" class="form-control" id="password" placeholder="密码" datatype="s6-16" errormsg="最少6个字符,最长16字符" nullmsg="请输入密码！">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 <div class="Validform_checktip"></div>
             </div>
@@ -94,11 +94,20 @@
 <!-- /.login-box -->
 <script>
     $(function () {
-
         var demo = $("#loginForm").Validform();
         demo.config({
-            tiptype: 3
-        });
+            tiptype: 3,
+            beforeSubmit:function(curform) {
+                var password = $('#password').val()
+                if(password){
+                    $('#password').val(md5(password))
+                } else{
+                    $('#password').onfocus()
+                    return false
+                }
+            }
+        })
+        $.notify("{{ msg }}", "error");
     });
 </script>
 </body>

@@ -2,10 +2,9 @@
 const rbac = require('../../config/rbac.js')
 module.exports = (option, app) => {
     return async function navPermission(ctx, next) {
-        console.log('navPermission in ... '+ ctx.request.url )
-        if (ctx.isAuthenticated() && ctx.request.url !== '/passport/local' ) {
+        if (ctx.isAuthenticated()) {
             console.log('isAuthenticated succ')
-            let urlSplit = ctx.request.url.split('/');
+            let urlSplit = ctx.request.path.split('/');
             let menus = rbac.menus;
             let navPer = [];
             let selectNav = '';
@@ -29,19 +28,19 @@ module.exports = (option, app) => {
                 }
                 navPer.push(obj);
             }
-
             ctx.app.nunjucks.addGlobal('navMenus', navPer);
+            ctx.app.nunjucks.addGlobal('loginUser', ctx.user);
             ctx.app.nunjucks.addGlobal('selectNav', selectNav);
             ctx.app.nunjucks.addGlobal('selectMenu', selectMenu);
             ctx.app.nunjucks.addGlobal('lastUpateMonitor', '121-')
             await next();
 
-        } else if(ctx.request.url !== '/admin/login' ){
+        } else if(ctx.request.path !== '/admin/login' ){
             console.log('isAuthenticated fail 1')
             ctx.session.returnTo = '/admin/home';
             ctx.redirect('/admin/login');
             await next();
-        } else  if(ctx.request.url == '/admin/login' ){
+        } else  if(ctx.request.path == '/admin/login' ){
             console.log('isAuthenticated fail 2')
             ctx.session.returnTo = '/admin/home';
             await next();

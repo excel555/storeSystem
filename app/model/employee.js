@@ -6,8 +6,8 @@ module.exports = app => {
     const Employee = app.model.define('employee', {
         code: STRING,
         name: STRING(30),
-        password: STRING(32),
-        email: STRING(32),
+        password: STRING(256),
+        email: STRING(64),
         mobile: STRING(32),
         age: INTEGER,
         role: TINYINT,

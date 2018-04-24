@@ -12,8 +12,6 @@ module.exports = app => {
     app.passport.authenticate('local');
     // 处理用户信息
     app.passport.verify(async (ctx, user) => {
-        console.log('app.passport.verify')
-        console.log(user)
         const employee = await ctx.model.Employee.findByCode(user.username);
         let msg = '登录成功';
         if(employee){

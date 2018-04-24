@@ -13,7 +13,6 @@
 </form>
 <div class="btn-toolbar" id="toolbar" role="toolbar" aria-label="Toolbar with button groups">
     <button type="button" id="btn_add" class="btn btn-success" data-toggle="modal" data-target="#modalNew">添加</button>
-    <button type="button" id="btn_refresh" class="btn btn-warning">刷新缓存</button>
 </div>
 <table id="tb_employees" style="min-width:1000px;">
 </table>
@@ -215,35 +214,19 @@
             },//传递参数（*）
             columns: [{
                 field: 'name',
-                title: '员工名称'
+                title: '姓名'
             }, {
                 field: 'code',
-                title: '员工CODE'
+                title: '员工登录名'
             }, {
-                field: 'addTime',
+                field: 'created_at',
                 title: '添加时间',
-                formatter: function (value, row, index) {
-                    if (!value) return '-';
-                    return dateFormat(new Date(value * 1000), "yyyy-mm-dd HH:MM:ss");
-                }
             }, {
-                field: 'tel',
+                field: 'last_sign_in_at',
+                title: '最后登录时间',
+            }, {
+                field: 'mobile',
                 title: '联系人电话'
-            }, {
-                field: 'concact',
-                title: '联系人'
-            }, {
-                field: 'appId',
-                title: 'appId'
-            }, {
-                field: 'secret',
-                title: '秘钥'
-            }, {
-                field: 'extendSecret',
-                title: '推送秘钥'
-            }, {
-                field: 'callbackUrl',
-                title: '推送URL'
             }, {
                 title: '操作',
                 width: 80,
@@ -264,25 +247,6 @@
                 $(this).val('')
             });
         });
-        $('#btn_refresh').click(function () {
-            $.ajax({
-                    url: "/admin/employee/cache",
-                    success: function (data) {
-                        if (data.code == 200) {
-                            $.notify(data.message, "success");
-                            setTimeout(function () {
-                                $.Hidemsg(); //公用方法关闭信息提示框;显示方法是
-                            }, 2000);
-                            $('#modalNew').modal('hide')
-                            table.bootstrapTable('refresh');
-                        } else {
-                            $.notify(data.message, "error");
-                        }
-                    }
-                }
-            );
-        });
-
     });
     //编辑事件
     function editModel(id) {

@@ -65,3 +65,6 @@ typings/
 config/config.default.js
 run/*
 run/
+
+.vscode/
+.vscode/*

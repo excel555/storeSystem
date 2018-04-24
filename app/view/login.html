@@ -57,7 +57,7 @@
     <script src="/public/js/bootstrap-table-editable.js"></script>
     <script src="/public/js/bootstrap-table-zh-CN.min.js"></script>
     <script src="/public/js/notify.js"></script>
-    <script src="/public/js/md5.js"></script>
+    <script src="/public/js/sha256.js"></script>
 
 </head>
 <body class="hold-transition login-page">
@@ -100,7 +100,7 @@
             beforeSubmit:function(curform) {
                 var password = $('#password').val()
                 if(password){
-                    $('#password').val(md5(password))
+                    $('#password').val(sha256_digest(password))
                 } else{
                     $('#password').onfocus()
                     return false

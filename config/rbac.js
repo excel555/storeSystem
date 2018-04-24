@@ -15,8 +15,8 @@ exports.permissions = [
     {controller: 'employee', action: 'index', menu: 'employee', alias: '员工列表', hidden: false},
     {controller: 'employee', action: 'add', menu: 'employee', alias: '添加员工', hidden: true},
     {controller: 'employee', action: 'edit', menu: 'employee', alias: '编辑员工', hidden: true},
-    {controller: 'employee', action: 'permission', menu: 'employee', alias: '权限分组', hidden: true},
-    {controller: 'employee', action: 'permission', menu: 'employee', alias: '添加分组', hidden: true},
+    {controller: 'employee', action: 'permission', menu: 'employee', alias: '权限分组', hidden: false},
+    {controller: 'employee', action: 'permission', menu: 'employee', alias: '添加分组', hidden: false},
 
     //门店
     {controller: 'store', action: 'index', menu: 'store', alias: '修改门店信息', hidden: false},
